@@ -9,11 +9,11 @@ import nltk
 from nltk.tokenize import sent_tokenize
 
 #--------------------DANE WSADOWE--------------------
-MY_QUESTION = 'Puzzle Games: Explain to me how should we calculate revenue share for Puzzle With Us game?'
-YOUR_CONTEXT = 'You are a financial assistant. Answer the question using the provided context from legal agreements. Include the document reference in your response.'
+MY_QUESTION = 'Puzzle Games: How should we calculate revenue share for Puzzle With Us game?'
+YOUR_CONTEXT = 'You are a financial controller. Answer the question using the provided context from legal agreements. Keep it concise, briefly. If you dont know the answer let me know.'
 ENCODER = 'all-mpnet-base-v2'
-MODEL_SELECTED = 'smallthinker'
-SENTENCES = 10
+MODEL_SELECTED = 'initium/law_model'
+SENTENCES = 5
 
 
 #--------------------ŹRÓDŁO DOCX--------------------
@@ -93,7 +93,7 @@ document_hits = qdrant.query_points(
 relevant_documents = [hit.payload for hit in document_hits.points]
 
 relevant_file_name = [doc['file_name'] for doc in relevant_documents]
-print("Document that will be a source of information: ",relevant_file_name)
+print("\nDocument that will be a source of information: ",relevant_file_name)
 
 filtered_sentences = [
     {"file_name": row['file_name'], "sentence": row['sentence']}
@@ -137,9 +137,10 @@ hits = qdrant.query_points(
 
 
 search_results = [
-    {"doc_number": point.payload['file_name'], "content": point.payload['sentence']}
+    {"content": point.payload['sentence']}
     for point in hits.points
 ]
+
 
 #--------------------POŁĄCZENIE Z LLM--------------------
 
@@ -153,8 +154,8 @@ if (MODEL_SELECTED not in available_model_names):
 
 
 #Question to the model
-search_results_str = "\n\n".join(
-    [f"Document: {item['doc_number']}\nContent: {item['content']}" for item in search_results]
+search_results_str = "\n".join(
+    [item['content'] for item in search_results]
 )
 
 response = chat(
