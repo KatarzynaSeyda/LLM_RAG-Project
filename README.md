@@ -13,3 +13,5 @@ Projekt zawiera następujące elementy:
 3. 💬 Implementacja RAG wykorzustując model LLM z bibloteki 🦙**ollama**:
    - Określono kontekst i rolę, która pozwala na lepsze dopasowanie odpowiedzi: *'You are a financial controller. Answer the question using the provided context from legal agreements. Keep it concise, briefly. If you don't know the answer let me know.*
    - Wykorzystano model **initium/law_model**
+  
+*Załączono dwa przykłady odpowiedzi modelu (Question1.png i Question2.png)
