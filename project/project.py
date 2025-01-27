@@ -148,12 +148,11 @@ available_model_names = [model.model for model in available_models.models]
 
 # Pull model if it is not available
 if (MODEL_SELECTED not in available_model_names):
-    print('Selected model pulled:', MODEL_SELECTED)
     ollama.pull(MODEL_SELECTED)
+    print('Selected model pulled:', MODEL_SELECTED)
 
 
 #Question to the model
-
 search_results_str = "\n\n".join(
     [f"Document: {item['doc_number']}\nContent: {item['content']}" for item in search_results]
 )
@@ -166,5 +165,5 @@ response = chat(
         {'role': 'assistant', 'content': f"Context:\n{search_results_str}"},
     ]
 )
-print(response)
+
 print('Response:', response['message']['content'])
